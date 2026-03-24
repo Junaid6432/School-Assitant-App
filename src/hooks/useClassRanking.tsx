@@ -31,10 +31,10 @@ export function useClassRanking() {
     if (authLoading || !teacher?.teacherId) return;
 
     // 1. Listen to all required collections
-    const studentsQuery = query(collection(db, "students"), where("teacherId", "==", teacher.teacherId));
-    const attendanceQuery = query(collection(db, "attendance"), where("teacherId", "==", teacher.teacherId));
-    const homeworkQuery = query(collection(db, "homework"), where("teacherId", "==", teacher.teacherId));
-    const assessmentsQuery = query(collection(db, "assessments"), where("teacherId", "==", teacher.teacherId));
+    const studentsQuery = query(collection(db, "students"), where("emisCode", "==", teacher.emisCode), where("teacherId", "==", teacher.teacherId));
+    const attendanceQuery = query(collection(db, "attendance"), where("emisCode", "==", teacher.emisCode), where("teacherId", "==", teacher.teacherId));
+    const homeworkQuery = query(collection(db, "homework"), where("emisCode", "==", teacher.emisCode), where("teacherId", "==", teacher.teacherId));
+    const assessmentsQuery = query(collection(db, "assessments"), where("emisCode", "==", teacher.emisCode), where("teacherId", "==", teacher.teacherId));
 
     const unsubStates: any[] = [];
     let students: any[] = [];

@@ -66,6 +66,7 @@ export default function ResultsPage() {
     // 1. Listen for Students in the teacher's class
     const studentsQuery = query(
       collection(db, "students"),
+      where("emisCode", "==", teacher.emisCode),
       where("teacherId", "==", teacher.teacherId)
     );
     
@@ -82,6 +83,7 @@ export default function ResultsPage() {
     // 2. Listen for Final Exam Results filtered by class
     const examsQuery = query(
       collection(db, "finalExams"),
+      where("emisCode", "==", teacher.emisCode),
       where("teacherId", "==", teacher.teacherId)
     );
     
@@ -161,6 +163,7 @@ export default function ResultsPage() {
       
       await setDoc(resultRef, {
         teacherId: teacher.teacherId,
+        emisCode: teacher.emisCode, // Added EMIS Code
         studentId: selectedStudentId,
         marks: marks,
         totalObtained,

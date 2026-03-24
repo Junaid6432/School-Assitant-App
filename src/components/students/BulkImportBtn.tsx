@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 interface BulkImportBtnProps {
   teacherId: string;
+  emisCode: string;
   assignedClass: string;
   onImportSuccess: () => void;
 }
@@ -37,7 +38,7 @@ const generateSampleExcel = (assignedClass: string) => {
   XLSX.writeFile(workbook, "Student_Import_Template.xlsx");
 };
 
-export default function BulkImportBtn({ teacherId, assignedClass, onImportSuccess }: BulkImportBtnProps) {
+export default function BulkImportBtn({ teacherId, emisCode, assignedClass, onImportSuccess }: BulkImportBtnProps) {
   const [isImporting, setIsImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -103,6 +104,7 @@ export default function BulkImportBtn({ teacherId, assignedClass, onImportSucces
             class: row['Class'] || assignedClass,
             parentWhatsApp: String(row['Phone Number']),
             teacherId: teacherId,
+            emisCode: emisCode,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now()
           });

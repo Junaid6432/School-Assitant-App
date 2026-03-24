@@ -57,6 +57,7 @@ export default function StudentsPage() {
 
     const q = query(
       collection(db, "students"), 
+      where("emisCode", "==", teacher.emisCode),
       where("teacherId", "==", teacher.teacherId),
       orderBy("rollNumber", "asc")
     );
@@ -81,12 +82,17 @@ export default function StudentsPage() {
 
     setIsSaving(true);
     try {
+      if (!teacher?.teacherId || !teacher?.emisCode) {
+        throw new Error("Teacher credentials not fully loaded. Please refresh.");
+      }
+
       if (editingStudentId) {
         // Update existing student
         const studentRef = doc(db, "students", editingStudentId);
         await updateDoc(studentRef, {
           ...formData,
-          teacherId: teacher?.teacherId,
+          teacherId: teacher.teacherId,
+          emisCode: teacher.emisCode,
           updatedAt: Timestamp.now()
         });
         alert("Student updated successfully! ✅");
@@ -94,7 +100,8 @@ export default function StudentsPage() {
         // Add new student
         await addDoc(collection(db, "students"), {
           ...formData,
-          teacherId: teacher?.teacherId,
+          teacherId: teacher.teacherId,
+          emisCode: teacher.emisCode,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now()
         });
@@ -183,6 +190,7 @@ export default function StudentsPage() {
             <div className="flex items-center gap-4">
               <BulkImportBtn 
                 teacherId={teacher?.teacherId || ""}
+                emisCode={teacher?.emisCode || ""}
                 assignedClass={teacher?.assignedClass || ""}
                 onImportSuccess={() => {}}
               />

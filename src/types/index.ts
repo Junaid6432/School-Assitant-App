@@ -6,6 +6,7 @@ export interface Teacher {
   email: string;
   whatsappNumber?: string;
   assignedClass: string;
+  emisCode: string;
   role: UserRole;
   createdAt: any;
 }
@@ -19,6 +20,7 @@ export interface Student {
   parentWhatsApp: string;
   photoURL?: string;
   academicYear: string;
+  emisCode: string;
   currentTotalScore: number;
   rank?: number;
 }
@@ -27,6 +29,7 @@ export interface AttendanceRecord {
   attendanceId: string; // e.g., Class3_2024-03-13
   class: string;
   date: string;
+  emisCode: string;
   records: {
     [studentId: string]: 'Present' | 'Absent' | 'Leave';
   };
@@ -37,6 +40,7 @@ export interface Homework {
   class: string;
   subject: string;
   date: string;
+  emisCode: string;
   details: string;
   imageUrl?: string;
   status: {
@@ -51,6 +55,7 @@ export interface Assessment {
   type: 'Monthly Test' | 'Final Exam';
   term: string; // e.g., "March 2024"
   date: string;
+  emisCode: string;
   marks: {
     english?: number;
     math?: number;

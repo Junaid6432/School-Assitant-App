@@ -30,6 +30,7 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     assignedClass: "Class 1",
+    emisCode: "",
   });
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -60,6 +61,7 @@ export default function RegisterPage() {
         name: formData.name,
         email: user.email,
         assignedClass: formData.assignedClass,
+        emisCode: formData.emisCode, // Added EMIS Code
         role: "Teacher",
         createdAt: new Date().toISOString(),
       });
@@ -84,8 +86,8 @@ export default function RegisterPage() {
           <div className="w-24 h-24 bg-white/5 backdrop-blur-xl rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 border border-white/10 rotate-12 shadow-2xl group hover:rotate-0 transition-transform duration-700">
             <UserPlus className="w-12 h-12 neon-teal group-hover:scale-110 transition-transform" />
           </div>
-          <h1 className="text-4xl font-black tracking-tighter text-white uppercase italic">Protocol: Enrollment</h1>
-          <p className="text-slate-500 font-black uppercase tracking-[0.3em] mt-2 text-xs">GPS Kunda Personnel Registry</p>
+          <h1 className="text-4xl font-black tracking-tighter text-white uppercase italic">Registration</h1>
+          <p className="text-slate-500 font-black uppercase tracking-[0.3em] mt-2 text-xs">School Personnel Registry</p>
         </div>
 
         <div className="glass-card p-10 shadow-[0_0_60px_rgba(0,0,0,0.6)] border-white/5 relative overflow-hidden">
@@ -99,8 +101,24 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleRegister} className="space-y-6">
+            {/* SCHOOL EMIS FIELD (MANDATORY) */}
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Full Legal Name</label>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">School</label>
+              <div className="relative group">
+                <School className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter School EMIS Code"
+                  className="w-full pl-14 pr-6 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black uppercase tracking-widest text-xs"
+                  value={formData.emisCode}
+                  onChange={(e) => setFormData({ ...formData, emisCode: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Full Name</label>
               <div className="relative group">
                 <UserIcon className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                 <input
@@ -115,13 +133,13 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Communication Channel (Email)</label>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email</label>
               <div className="relative group">
                 <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                 <input
                   required
                   type="email"
-                  placeholder="ID_PROTOCOL@GPSKUNDA.COM"
+                  placeholder="name@email.com"
                   className="w-full pl-14 pr-6 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black uppercase tracking-widest text-xs"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -148,7 +166,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Key</label>
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Password</label>
                 <div className="relative group">
                   <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                   <input
@@ -186,7 +204,7 @@ export default function RegisterPage() {
                 <Loader2 className="w-7 h-7 animate-spin" strokeWidth={3} />
               ) : (
                 <>
-                  Initialize Personnel
+                  Register Account
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" strokeWidth={3} />
                 </>
               )}
@@ -205,7 +223,7 @@ export default function RegisterPage() {
 
         <div className="mt-12 text-center pb-20">
           <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-700">
-            System Identity: GPS KUNDA OPS-2.0
+            System Identity: SCHOOL OPS-1.0
           </p>
         </div>
       </div>

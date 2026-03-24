@@ -46,6 +46,11 @@ export default function Dashboard() {
   const [students, setStudents] = useState<any[]>([]);
 
   const { rankings, loading: loadingRankings } = useClassRanking();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (authLoading) return;
@@ -61,6 +66,7 @@ export default function Dashboard() {
     // 1. Students Listener (Total count and filtering groups)
     const studentsQuery = query(
       collection(db, "students"),
+      where("emisCode", "==", teacher.emisCode),
       where("teacherId", "==", teacher.teacherId)
     );
 
@@ -110,7 +116,7 @@ export default function Dashboard() {
     };
   }, [teacher, authLoading]);
 
-  if (authLoading || loading) {
+  if (!isMounted || authLoading || loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <Loader2 className="w-10 h-10 animate-spin text-primary" />

@@ -41,6 +41,7 @@ export default function AttendancePage() {
 
     const q = query(
       collection(db, "students"), 
+      where("emisCode", "==", teacher.emisCode),
       where("teacherId", "==", teacher.teacherId),
       orderBy("rollNumber", "asc")
     );
@@ -118,8 +119,9 @@ export default function AttendancePage() {
 
       const attendanceId = `${teacher.teacherId}_${date}`;
       await setDoc(doc(db, "attendance", attendanceId), {
-        attendanceId, // For consistency with types
+        attendanceId,
         teacherId: teacher.teacherId,
+        emisCode: teacher.emisCode, // Added EMIS Code
         class: teacher.assignedClass,
         date,
         records,
