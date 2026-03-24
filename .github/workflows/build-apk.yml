@@ -25,18 +25,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build Next.js
         run: npm run build
 
-      - name: capacitor add android
-        run: npx cap add android || npx cap sync android
-
       - name: Capacitor Sync
         run: npx cap sync
 
-      - name: Build Android Release
+      - name: Build Android Debug APK
         run: |
           cd android
           chmod +x gradlew
