@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import { App } from "@capacitor/app";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -46,6 +47,23 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       window.removeEventListener("afterprint", handleAfterPrint);
     };
   }, []);
+
+  // Universal Back Button Handler for Android
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const backListener = App.addListener('backButton', ({ canGoBack }) => {
+      if (!canGoBack || pathname === '/dashboard' || pathname === '/login') {
+        App.exitApp();
+      } else {
+        window.history.back();
+      }
+    });
+
+    return () => {
+      backListener.then(l => l.remove());
+    };
+  }, [pathname]);
 
   if (loading || !mounted) {
     return (

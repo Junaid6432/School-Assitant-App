@@ -205,20 +205,30 @@ export default function DMCPage() {
         </div>
       </div>
 
-      {/* RE-ENGINEERED DMC ENGINE: SINGLE-PAGE A4 LOCK */}
-      <DMCDisplay 
-        student={{
-          ...student,
-          marks: marksArray,
-          totalMarks: totalObtained,
-          percentage: percentage
-        }}
-        teacher={teacher}
-        style={styleMapped}
-        fontFamily={fontFamilyMapped}
-        language={language}
-        isPrintPreview={isPrinting}
-      />
+      {/* RE-ENGINEERED DMC ENGINE: SINGLE-PAGE A4 LOCK WITH MOBILE AUTO-SCALING */}
+      <div className="dmc-viewport-container w-full overflow-hidden flex flex-col items-center">
+        <div 
+          className="dmc-scaler-origin transition-transform duration-500 origin-top"
+          style={{ 
+            width: '210mm',
+            transform: mounted ? `scale(${(typeof window !== 'undefined' && window.innerWidth < 794) ? (window.innerWidth / 830) : 1})` : 'scale(1)'
+          }}
+        >
+          <DMCDisplay 
+            student={{
+              ...student,
+              marks: marksArray,
+              totalMarks: totalObtained,
+              percentage: percentage
+            }}
+            teacher={teacher}
+            style={styleMapped}
+            fontFamily={fontFamilyMapped}
+            language={language}
+            isPrintPreview={isPrinting}
+          />
+        </div>
+      </div>
 
       <style jsx global>{`
         @media print {
