@@ -19,7 +19,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+// Initialize Firebase - Only if API key is present to prevent build-time crashes
+const app = (firebaseConfig.apiKey && (getApps().length > 0 ? getApp() : initializeApp(firebaseConfig))) as any;
 
 // Initialize Firestore
 const db = getFirestore(app);
