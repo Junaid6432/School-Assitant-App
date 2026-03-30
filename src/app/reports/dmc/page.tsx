@@ -142,7 +142,7 @@ export default function DMCPage() {
       {/* Universal Control Engine (Hidden on Print) */}
       <div className="print:hidden flex flex-wrap items-center justify-between gap-6 glass-panel p-8 mb-2 border-white/5 shadow-2xl relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
-          <Award className="w-24 h-24 text-white" />
+          <Award className="w-24 h-24 text-foreground" />
         </div>
 
         <div className="flex flex-col gap-6 relative z-10 w-full">
@@ -153,8 +153,8 @@ export default function DMCPage() {
                 <ChevronLeft className="w-6 h-6" />
               </Link>
               <div className="space-y-1">
-                <h3 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] leading-none">Record Analyzer</h3>
-                <p className="text-lg font-black text-white leading-none tracking-tight uppercase italic">{student?.name}</p>
+                <h3 className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.3em] leading-none">Record Analyzer</h3>
+                <p className="text-lg font-black text-foreground leading-none tracking-tight uppercase italic">{student?.name}</p>
               </div>
             </div>
             {/* Empty space or secondary info can go here */}
@@ -170,11 +170,11 @@ export default function DMCPage() {
                 value={template}
                 onChange={(e) => setTemplate(e.target.value)}
               >
-                <option className="bg-white text-[#1E293B]">Executive Premium</option>
-                <option className="bg-white text-[#1E293B]">BOARD CLASSIC</option>
-                <option className="bg-white text-[#1E293B]">Clean Minimal</option>
-                <option className="bg-white text-[#1E293B]">GOVT OFFICIAL GREEN</option>
-                <option className="bg-white text-[#1E293B]">SYSTEM COMPACT</option>
+                <option className="bg-card text-foreground">Executive Premium</option>
+                <option className="bg-card text-foreground">BOARD CLASSIC</option>
+                <option className="bg-card text-foreground">Clean Minimal</option>
+                <option className="bg-card text-foreground">GOVT OFFICIAL GREEN</option>
+                <option className="bg-card text-foreground">SYSTEM COMPACT</option>
               </select>
             </div>
 
@@ -186,10 +186,10 @@ export default function DMCPage() {
                 value={fontStyle}
                 onChange={(e) => setFontStyle(e.target.value)}
               >
-                <option className="bg-white text-[#1E293B]">Serif</option>
-                <option className="bg-white text-[#1E293B]">Open Sans</option>
-                <option className="bg-white text-[#1E293B]">Roboto</option>
-                <option className="bg-white text-[#1E293B]">Times New Roman</option>
+                <option className="bg-card text-foreground">Serif</option>
+                <option className="bg-card text-foreground">Open Sans</option>
+                <option className="bg-card text-foreground">Roboto</option>
+                <option className="bg-card text-foreground">Times New Roman</option>
               </select>
             </div>
 

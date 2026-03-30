@@ -38,11 +38,15 @@ if (typeof window !== "undefined") {
 
 // Enable persistence
 if (typeof window !== "undefined") {
-  enableMultiTabIndexedDbPersistence(db).catch((err) => {
+  const { enableIndexedDbPersistence, clearIndexedDbPersistence } = require("firebase/firestore");
+  enableIndexedDbPersistence(db).catch((err: any) => {
     if (err.code === "failed-precondition") {
       console.warn("Firestore persistence failed: Multiple tabs open. Only one tab can use offline persistence.");
     } else if (err.code === "unimplemented") {
       console.warn("Firestore persistence is not supported by this browser.");
+    } else {
+      console.error("Firestore persistence error, clearing cache:", err);
+      clearIndexedDbPersistence(db);
     }
   });
 }

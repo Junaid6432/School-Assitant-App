@@ -144,24 +144,24 @@ export default function Dashboard() {
     <div className="space-y-10 py-4">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-2">
         <div className="space-y-1">
-          <h2 className="text-3xl font-black tracking-tight text-white uppercase italic">
-            Assalam-o-Alaikum, <span className="neon-teal">{teacher?.name || "Teacher"}</span>
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+            Welcome back, <span className="text-primary font-bold">{teacher?.name || "Teacher"}</span>
           </h2>
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1 bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 rounded-full text-[10px] font-black text-[#2dd4bf] uppercase tracking-widest">
+            <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-semibold text-primary uppercase tracking-wider">
               {teacher?.assignedClass} Analyst
             </span>
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-widest">Active Session</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Active Session</span>
           </div>
         </div>
         <div className="flex flex-wrap gap-4">
           <Link href="/attendance" className="btn-primary flex items-center gap-2 group">
-            <UserCheck className="w-5 h-5 transition-transform group-hover:scale-110" />
+            <UserCheck className="w-4 h-4 transition-transform group-hover:scale-110" />
             Mark Attendance
           </Link>
-          <Link href="/homework" className="px-6 py-2.5 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 flex items-center gap-2 font-bold transition-all active:scale-95">
-            <Plus className="w-5 h-5" />
+          <Link href="/homework" className="px-5 py-2.5 bg-card/80 backdrop-blur-md border border-border text-foreground rounded-xl hover:bg-white/5 flex items-center gap-2 font-medium transition-all active:scale-95 shadow-sm">
+            <Plus className="w-4 h-4 text-primary" />
             Assign Homework
           </Link>
         </div>
@@ -200,12 +200,12 @@ export default function Dashboard() {
         {/* Top Performers Ranking */}
         <div className="glass-card p-8 border-white/5 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-10">
-            <Trophy className="w-20 h-20 text-[#fde047]" />
+            <Trophy className="w-24 h-24 text-amber-500" />
           </div>
           
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-black flex items-center gap-3 text-white uppercase tracking-tighter">
-              <Star className="w-6 h-6 neon-gold" />
+            <h2 className="text-lg font-bold flex items-center gap-2 text-foreground tracking-tight">
+              <Star className="w-5 h-5 text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
               Spotlight: Top 3
             </h2>
           </div>
@@ -213,21 +213,21 @@ export default function Dashboard() {
             {!loadingRankings && rankings.length > 0 ? rankings.slice(0, 3).map((student, index) => (
               <div key={student.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] transition-all group">
                 <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm italic ${
-                    index === 0 ? "bg-[#fde047] text-[#0f172a] shadow-[0_0_20px_rgba(253,224,71,0.4)]" : 
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
+                    index === 0 ? "bg-amber-500 text-amber-950 shadow-[0_0_15px_rgba(245,158,11,0.3)]" : 
                     index === 1 ? "bg-slate-300 text-slate-700" : 
                     "bg-orange-300 text-orange-800"
                   }`}>
                     #{index + 1}
                   </div>
                   <div>
-                    <p className="font-bold text-white tracking-tight">{student.name}</p>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">Roll No: {student.rollNumber}</p>
+                    <p className="font-semibold text-foreground tracking-tight">{student.name}</p>
+                    <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider leading-none">Roll No: {student.rollNumber}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-black text-lg neon-teal tracking-tighter">{student.totalScore}/50</p>
-                  <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Total Pts</p>
+                  <p className="font-bold text-lg text-primary tracking-tight">{student.totalScore}/50</p>
+                  <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Total Pts</p>
                 </div>
               </div>
             )) : (
@@ -239,17 +239,17 @@ export default function Dashboard() {
         </div>
 
         {/* Needs Improvement */}
-        <div className="glass-card p-8 border-[#fb7185]/10 relative overflow-hidden">
+        <div className="glass-card p-8 border-danger/10 relative overflow-hidden">
            <div className="absolute top-0 right-0 p-4 opacity-10 rotate-12">
-            <AlertTriangle className="w-20 h-20 text-[#fb7185]" />
+            <AlertTriangle className="w-24 h-24 text-danger" />
           </div>
 
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-black flex items-center gap-3 text-white uppercase tracking-tighter">
-              <AlertTriangle className="w-6 h-6 neon-coral" />
+            <h2 className="text-lg font-bold flex items-center gap-2 text-foreground tracking-tight">
+              <AlertTriangle className="w-5 h-5 text-danger drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
               Attention Required 
             </h2>
-            <span className="bg-[#fb7185]/10 text-[#fb7185] text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest border border-[#fb7185]/20 shadow-[0_0_10px_rgba(251,113,133,0.1)]">
+            <span className="bg-danger/10 text-danger text-[10px] px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider border border-danger/20 shadow-sm">
               Below 25 Pts
             </span>
           </div>
@@ -258,19 +258,19 @@ export default function Dashboard() {
               rankings.filter(r => r.totalScore < 25).slice(0, 5).map((student) => {
                 const actualStudent = students.find(s => s.id === student.id);
                 return (
-                  <div key={student.id} className="flex items-center justify-between p-4 rounded-2xl bg-[#fb7185]/5 border border-[#fb7185]/10 hover:border-[#fb7185]/30 transition-all group">
+                  <div key={student.id} className="flex items-center justify-between p-4 rounded-2xl bg-danger/5 border border-danger/10 hover:border-danger/30 transition-all group">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-[#fb7185]/10 flex items-center justify-center font-black text-[#fb7185] text-sm">
-                        {student.name.charAt(0)}
+                      <div className="w-10 h-10 rounded-xl bg-danger/10 flex items-center justify-center font-bold text-danger text-sm">
+                        {(student?.name || "U").charAt(0)}
                       </div>
                       <div>
-                        <p className="font-bold text-white tracking-tight">{student.name}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">RN: {student.rollNumber} • {student.totalScore}/50</p>
+                        <p className="font-semibold text-foreground tracking-tight">{student.name}</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">RN: {student.rollNumber} • {student.totalScore}/50</p>
                       </div>
                     </div>
                     <button 
                       onClick={() => window.open(`https://wa.me/${actualStudent?.parentWhatsApp}`, '_blank')}
-                      className="px-4 py-2 bg-[#fb7185]/10 hover:bg-[#fb7185]/20 text-[#fb7185] text-[10px] font-black uppercase tracking-widest rounded-lg transition-all"
+                      className="px-3.5 py-1.5 bg-danger/10 hover:bg-danger/20 text-danger text-[9px] font-semibold uppercase tracking-wider rounded-lg transition-all"
                     >
                       Alert Parent
                     </button>

@@ -14,9 +14,9 @@ export function PageHeader({ title, description, actions, className }: PageHeade
   return (
     <div className={cn("flex flex-col md:flex-row md:items-start justify-between gap-6 mb-12 border-b border-white/5 pb-8", className)}>
       <div className="space-y-1">
-        <h1 className="text-3xl font-black italic tracking-tighter text-white uppercase">{title}</h1>
+        <h1 className="text-3xl font-black italic tracking-tighter text-foreground uppercase">{title}</h1>
         {description && (
-          <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.25em] mt-1 italic">
+          <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.25em] mt-1 italic">
             {description}
           </p>
         )}

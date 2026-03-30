@@ -36,7 +36,7 @@ function CircularBadge({ percentage }: { percentage: number }) {
   return (
     <div className="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
       <svg width="64" height="64" className="-rotate-90">
-        <circle cx="32" cy="32" r={radius} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="4" />
+        <circle cx="32" cy="32" r={radius} fill="none" stroke="var(--border)" strokeWidth="4" />
         <circle
           cx="32" cy="32" r={radius}
           fill="none"
@@ -64,7 +64,7 @@ function SubjectBar({ subject, score }: { subject: string; score: number }) {
   return (
     <div className="space-y-1">
       <div className="flex justify-between items-center">
-        <span className="text-[8px] font-black text-[#94a3b8] uppercase tracking-widest leading-none">
+        <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest leading-none">
           {subject}
         </span>
         <span className="text-[9px] font-black italic leading-none" style={{ color }}>{score}</span>
@@ -92,8 +92,8 @@ export function ResultCard({ student, onEdit, onWhatsApp, onViewDmc }: ResultCar
       {/* Header */}
       <div className="px-5 py-4 flex items-center justify-between border-b border-white/5 bg-white/[0.02]">
         <div>
-          <p className="font-black text-white text-base tracking-tight uppercase italic leading-none">{student.name}</p>
-          <p className="text-[9px] font-black text-[#94a3b8] uppercase tracking-[0.2em] mt-2 leading-none">
+          <p className="font-black text-foreground text-base tracking-tight uppercase italic leading-none">{student.name}</p>
+          <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mt-2 leading-none">
             Vector Access: #{student.rollNumber}
           </p>
         </div>
@@ -129,14 +129,14 @@ export function ResultCard({ student, onEdit, onWhatsApp, onViewDmc }: ResultCar
       <div className="px-5 pb-5 flex gap-3">
         <button
           onClick={() => onEdit(student)}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] text-[#94a3b8] hover:text-white text-[9px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-inner"
+          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] text-muted-foreground hover:text-foreground text-[9px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-inner"
         >
           <TrendingUp className="w-3.5 h-3.5" />
           Sync
         </button>
         <button
           onClick={() => onViewDmc(student)}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] text-[#94a3b8] hover:text-white text-[9px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-inner"
+          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] text-muted-foreground hover:text-foreground text-[9px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-inner"
         >
           <Eye className="w-3.5 h-3.5" />
           DMC

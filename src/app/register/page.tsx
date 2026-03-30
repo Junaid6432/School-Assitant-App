@@ -14,7 +14,9 @@ import {
   School,
   Loader2,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +33,11 @@ export default function RegisterPage() {
     confirmPassword: "",
     assignedClass: "Class 1",
     emisCode: "",
+    schoolName: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +67,8 @@ export default function RegisterPage() {
         name: formData.name,
         email: user.email,
         assignedClass: formData.assignedClass,
-        emisCode: formData.emisCode, // Added EMIS Code
+        emisCode: formData.emisCode,
+        schoolName: formData.schoolName, // Added School Name
         role: "Teacher",
         createdAt: new Date().toISOString(),
       });
@@ -81,29 +88,43 @@ export default function RegisterPage() {
       <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-[#2dd4bf]/10 rounded-full mix-blend-screen filter blur-[150px] opacity-30 animate-pulse" />
       <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] bg-[#fb7185]/10 rounded-full mix-blend-screen filter blur-[150px] opacity-30 animate-pulse" />
 
-      <div className="w-full max-w-md relative z-10 px-6">
-        <div className="text-center mb-10">
-          <div className="w-24 h-24 bg-white/5 backdrop-blur-xl rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 border border-white/10 rotate-12 shadow-2xl group hover:rotate-0 transition-transform duration-700">
-            <UserPlus className="w-12 h-12 neon-teal group-hover:scale-110 transition-transform" />
+      <div className="w-full max-w-[420px] relative z-10 px-6">
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-white/5 backdrop-blur-xl rounded-[1.5rem] flex items-center justify-center mx-auto mb-5 border border-white/10 rotate-12 shadow-2xl group hover:rotate-0 transition-transform duration-700">
+            <UserPlus className="w-10 h-10 neon-teal group-hover:scale-110 transition-transform" />
           </div>
-          <h1 className="text-4xl font-black tracking-tighter text-white uppercase italic">Registration</h1>
-          <p className="text-slate-500 font-black uppercase tracking-[0.3em] mt-2 text-xs">School Personnel Registry</p>
+          <h1 className="text-3xl font-black tracking-tight text-white uppercase italic">Create Account</h1>
+          <p className="text-slate-500 font-bold uppercase tracking-widest mt-1.5 text-[10px]">Join the teacher platform</p>
         </div>
 
-        <div className="glass-card p-10 shadow-[0_0_60px_rgba(0,0,0,0.6)] border-white/5 relative overflow-hidden">
+        <div className="glass-card p-8 shadow-[0_0_60px_rgba(0,0,0,0.6)] border-white/5 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#2dd4bf]/50 to-transparent" />
           
           {error && (
-            <div className="mb-8 p-5 rounded-2xl bg-[#fb7185]/10 border border-[#fb7185]/20 text-[#fb7185] text-[10px] font-black uppercase tracking-widest flex items-center gap-4 animate-shake shadow-[0_0_20px_rgba(251,113,133,0.1)]">
+            <div className="mb-6 p-4 rounded-xl bg-[#fb7185]/10 border border-[#fb7185]/20 text-[#fb7185] text-[10px] font-black uppercase tracking-widest flex items-center gap-3 animate-shake shadow-[0_0_20px_rgba(251,113,133,0.1)]">
               <AlertCircle className="w-6 h-6 flex-shrink-0" strokeWidth={3} />
               {error}
             </div>
           )}
 
-          <form onSubmit={handleRegister} className="space-y-6">
-            {/* SCHOOL EMIS FIELD (MANDATORY) */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">School</label>
+          <form onSubmit={handleRegister} className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">School Name</label>
+              <div className="relative group">
+                <School className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter School Name"
+                  className="w-full pl-14 pr-6 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black uppercase tracking-widest text-xs"
+                  value={formData.schoolName}
+                  onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">School EMIS Code</label>
               <div className="relative group">
                 <School className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                 <input
@@ -133,7 +154,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email</label>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email Address</label>
               <div className="relative group">
                 <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                 <input
@@ -147,8 +168,8 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Academic Assignment</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Select Class</label>
               <div className="relative group">
                 <School className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                 <select
@@ -164,33 +185,47 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Password</label>
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Password</label>
                 <div className="relative group">
                   <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                   <input
                     required
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="••••"
-                    className="w-full pl-14 pr-4 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black tracking-widest text-xs"
+                    className="w-full pl-14 pr-12 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black tracking-widest text-xs"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Confirm</label>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Confirm Password</label>
                 <div className="relative group">
                   <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:neon-teal transition-all" />
                   <input
                     required
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="••••"
-                    className="w-full pl-14 pr-4 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black tracking-widest text-xs"
+                    className="w-full pl-14 pr-12 py-4.5 rounded-2xl border border-white/10 bg-[#0f172a]/50 text-white placeholder:text-slate-700 focus:ring-4 focus:ring-[#2dd4bf]/20 focus:border-[#2dd4bf]/50 outline-none transition-all font-black tracking-widest text-xs"
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors focus:outline-none"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
               </div>
             </div>
@@ -211,19 +246,19 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          <div className="mt-10 pt-8 border-t border-white/5 text-center">
+          <div className="mt-8 pt-6 border-t border-white/5 text-center">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
               Existing Account?{" "}
-              <Link href="/login" className="neon-teal hover:underline ml-2">
-                Sign In Protocol
+              <Link href="/login" className="neon-teal hover:underline ml-1">
+                Login Now
               </Link>
             </p>
           </div>
         </div>
 
-        <div className="mt-12 text-center pb-20">
-          <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-700">
-            System Identity: SCHOOL OPS-1.0
+        <div className="mt-10 text-center pb-12">
+          <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-700">
+            System Identity: GPS KUNDA v2.0
           </p>
         </div>
       </div>

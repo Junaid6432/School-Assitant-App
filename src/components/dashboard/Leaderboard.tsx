@@ -30,11 +30,11 @@ export function ClassPerformanceLeaderboard() {
       
       <div className="p-8 flex items-center justify-between border-b border-white/5">
         <div>
-          <h2 className="text-xl font-black flex items-center gap-2 text-white uppercase tracking-tighter">
+          <h2 className="text-xl font-black flex items-center gap-2 text-foreground uppercase tracking-tighter">
             <Trophy className="w-6 h-6 neon-teal" />
             Class Leaderboard
           </h2>
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">Academic Rankings</p>
+          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.2em] mt-1">Academic Rankings</p>
         </div>
         <div className="flex flex-col items-end gap-1">
           <span className="bg-[#2dd4bf]/10 text-primary text-[10px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-[#2dd4bf]/20">
@@ -74,14 +74,14 @@ export function ClassPerformanceLeaderboard() {
                 </td>
                 <td className="px-8 py-6">
                   <div className="flex flex-col gap-0.5">
-                    <p className="font-bold text-white tracking-tight">{student.name}</p>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">RN: {student.rollNumber}</p>
+                    <p className="font-bold text-foreground tracking-tight">{student.name}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">RN: {student.rollNumber}</p>
                   </div>
                 </td>
-                <td className="px-4 py-6 text-center font-bold text-slate-300">{student.attendanceScore}</td>
-                <td className="px-4 py-6 text-center font-bold text-slate-300">{student.homeworkScore}</td>
-                <td className="px-4 py-6 text-center font-bold text-slate-300">{student.quizScore}</td>
-                <td className="px-4 py-6 text-center font-bold text-slate-300">{student.testScore}</td>
+                <td className="px-4 py-6 text-center font-bold text-muted-foreground">{student.attendanceScore}</td>
+                <td className="px-4 py-6 text-center font-bold text-muted-foreground">{student.homeworkScore}</td>
+                <td className="px-4 py-6 text-center font-bold text-muted-foreground">{student.quizScore}</td>
+                <td className="px-4 py-6 text-center font-bold text-muted-foreground">{student.testScore}</td>
                 <td className="px-8 py-6 text-right">
                   <div className="flex flex-col items-end">
                     <span className={cn(
@@ -92,7 +92,7 @@ export function ClassPerformanceLeaderboard() {
                     )}>
                       {student.totalScore}
                     </span>
-                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Points</span>
+                    <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Points</span>
                   </div>
                 </td>
               </tr>

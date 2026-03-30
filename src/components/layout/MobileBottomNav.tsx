@@ -51,7 +51,7 @@ export function MobileBottomNav() {
   }, [drawerOpen]);
 
   const isMoreActive = ["/homework", "/tests", "/reports", "/settings"].some(
-    (p) => pathname.startsWith(p)
+    (p) => pathname && pathname.startsWith(p)
   );
 
   return (
@@ -75,8 +75,8 @@ export function MobileBottomNav() {
         <div
           className="mx-4 mb-4 rounded-3xl overflow-hidden glass-panel"
           style={{
-            background: "rgba(15, 23, 42, 0.95)",
-            border: "1px solid rgba(255, 255, 255, 0.05)",
+            background: "var(--card)",
+            borderColor: "var(--border)",
             boxShadow: "0 -20px 50px rgba(0,0,0,0.5)",
           }}
         >
@@ -86,37 +86,37 @@ export function MobileBottomNav() {
           </div>
 
           <div className="flex items-center justify-between px-6 py-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-              Extended Protocols
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+              More Options
             </span>
             <button
               onClick={() => setDrawerOpen(false)}
               className="p-2 rounded-xl hover:bg-white/5 transition-colors"
             >
-              <X className="w-5 h-5 text-slate-500" />
+              <X className="w-5 h-5 text-muted-foreground" />
             </button>
           </div>
 
           <div className="px-3 pb-6 space-y-2">
             {moreItems.map(({ icon: Icon, label, href, color }) => {
-              const isActive = pathname.startsWith(href);
+              const isActive = pathname && pathname.startsWith(href);
               return (
                 <Link
                   key={href}
                   href={href}
                   className={cn(
-                    "flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-150 relative overflow-hidden group",
+                    "flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-150 relative overflow-hidden group",
                     isActive ? "bg-white/[0.03]" : "hover:bg-white/[0.02]"
                   )}
                 >
-                  {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#2dd4bf] rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" />}
+                  {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full shadow-[0_0_10px_var(--color-primary)]" />}
                   <span className="flex items-center justify-center w-10 h-10 rounded-xl flex-shrink-0 bg-white/5 border border-white/5 group-hover:scale-110 transition-transform">
-                    <Icon className="w-5 h-5" style={{ color: isActive ? "#2dd4bf" : "#94a3b8" }} strokeWidth={2.5} />
+                    <Icon className="w-5 h-5" style={{ color: isActive ? "var(--color-primary)" : "#94a3b8" }} strokeWidth={2.5} />
                   </span>
-                  <span className={cn("flex-1 font-bold text-xs uppercase tracking-widest", isActive ? "text-[#2dd4bf]" : "text-slate-400 group-hover:text-white")}>
+                  <span className={cn("flex-1 font-semibold text-sm tracking-wide", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")}>
                     {label}
                   </span>
-                  <ChevronRight className="w-4 h-4 text-slate-700" />
+                  <ChevronRight className="w-4 h-4 text-muted-foreground/30" />
                 </Link>
               );
             })}
@@ -128,15 +128,15 @@ export function MobileBottomNav() {
                 await signOut(auth);
                 window.location.href = "/login";
               }}
-              className="flex items-center gap-4 px-4 py-4 rounded-2xl w-full transition-all duration-150 hover:bg-[#fb7185]/5 group"
+              className="flex items-center gap-4 px-4 py-4 rounded-xl w-full transition-all duration-150 hover:bg-danger/5 group"
             >
-              <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#fb7185]/10 flex-shrink-0 border border-[#fb7185]/20">
-                <LogOut className="w-5 h-5 text-[#fb7185]" strokeWidth={2.5} />
+              <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-danger/10 flex-shrink-0 border border-danger/20">
+                <LogOut className="w-5 h-5 text-danger" strokeWidth={2.5} />
               </span>
-              <span className="flex-1 font-bold text-xs uppercase tracking-widest text-[#fb7185] text-left">
-                Terminate
+              <span className="flex-1 font-semibold text-sm tracking-wide text-danger text-left">
+                Sign Out
               </span>
-              <ChevronRight className="w-4 h-4 text-[#fb7185]/30" />
+              <ChevronRight className="w-4 h-4 text-danger/30" />
             </button>
           </div>
         </div>
@@ -148,7 +148,7 @@ export function MobileBottomNav() {
       >
         <div className="glass-panel h-[72px] flex items-center justify-around px-2 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           {navItems.map(({ icon: Icon, label, href }) => {
-            const isActive = pathname === href || pathname.startsWith(href + "/");
+            const isActive = pathname === href || (pathname && pathname.startsWith(href + "/"));
             return (
               <Link
                 key={href}
@@ -157,18 +157,18 @@ export function MobileBottomNav() {
               >
                 <div className={cn(
                   "flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 relative",
-                  isActive ? "bg-[#2dd4bf]/10 shadow-[0_0_15px_rgba(45,212,191,0.1)]" : "hover:bg-white/5"
+                  isActive ? "bg-primary/10 shadow-[0_0_15px_var(--color-primary)]" : "hover:bg-white/5"
                 )}>
                   {isActive && (
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-[#2dd4bf] rounded-full shadow-[0_0_10px_rgba(45,212,191,0.8)]" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-primary rounded-full shadow-[0_0_10px_var(--color-primary)]" />
                   )}
                   <Icon
                     className="w-5 h-5"
-                    style={{ color: isActive ? "#2dd4bf" : "#64748b" }}
+                    style={{ color: isActive ? "var(--color-primary)" : "var(--muted)" }}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
                 </div>
-                <span className={cn("text-[8px] font-black uppercase tracking-[0.15em]", isActive ? "text-[#2dd4bf]" : "text-slate-500")}>
+                <span className={cn("text-[8px] font-bold uppercase tracking-wider", isActive ? "text-primary" : "text-muted-foreground")}>
                   {label}
                 </span>
               </Link>
@@ -181,20 +181,20 @@ export function MobileBottomNav() {
           >
             <div className={cn(
               "flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300",
-              isMoreActive || drawerOpen ? "bg-[#2dd4bf]/10" : "hover:bg-white/5"
+              isMoreActive || drawerOpen ? "bg-primary/10" : "hover:bg-white/5"
             )}>
               {drawerOpen ? (
-                <X className="w-5 h-5 text-[#2dd4bf]" strokeWidth={2.5} />
+                <X className="w-5 h-5 text-primary" strokeWidth={2.5} />
               ) : (
                 <MoreHorizontal
                   className="w-5 h-5"
-                  style={{ color: isMoreActive ? "#2dd4bf" : "#64748b" }}
+                  style={{ color: isMoreActive ? "var(--color-primary)" : "var(--muted)" }}
                   strokeWidth={2.5}
                 />
               )}
             </div>
-            <span className={cn("text-[8px] font-black uppercase tracking-[0.15em]", isMoreActive || drawerOpen ? "text-[#2dd4bf]" : "text-slate-500")}>
-              Protocol
+            <span className={cn("text-[8px] font-bold uppercase tracking-wider", isMoreActive || drawerOpen ? "text-primary" : "text-muted-foreground")}>
+              Menu
             </span>
           </button>
         </div>

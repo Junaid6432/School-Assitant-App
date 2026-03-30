@@ -78,7 +78,8 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="space-y-10 py-6">
+    <div className="space-y-10 py-6 relative min-h-screen">
+      <div className="bg-glow-green fixed inset-0 z-[-1] pointer-events-none opacity-50" />
       <PageHeader 
         title="Record Protocols"
         description={`Analyzing academic performance for ${teacher?.assignedClass}.`}
@@ -86,7 +87,7 @@ export default function ReportsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
         {filteredStudents.length === 0 ? (
           <div className="col-span-full py-32 text-center">
-            <p className="text-slate-500 font-black uppercase tracking-[0.3em] text-xs">No records detected in search space.</p>
+            <p className="text-muted-foreground font-semibold uppercase tracking-widest text-xs">No records detected in search space.</p>
           </div>
         ) : (
           filteredStudents.map((student) => {
@@ -103,49 +104,49 @@ export default function ReportsPage() {
                 />
                 
                 <div className="p-8 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between mb-8">
+                  <div className="flex items-start justify-between mb-8 relative z-10">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 transition-colors group-hover:border-[#2dd4bf]/20 group-hover:text-[#2dd4bf] group-hover:bg-[#2dd4bf]/5">
+                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-muted-foreground transition-colors group-hover:border-[#2dd4bf]/20 group-hover:text-[#2dd4bf] group-hover:bg-[#2dd4bf]/5">
                         <User className="w-7 h-7" strokeWidth={1.5} />
                       </div>
                       <div>
-                        <h3 className="font-black text-xl text-white tracking-tighter italic uppercase truncate max-w-[140px]">{student.name}</h3>
-                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-0.5">ID: {student.rollNumber}</p>
+                        <h3 className="font-bold text-lg text-foreground tracking-tight truncate max-w-[140px]">{student.name}</h3>
+                        <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mt-1">ID: {student.rollNumber}</p>
                       </div>
                     </div>
                     {isElite && (
                       <div className="bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 p-2 rounded-xl text-[#2dd4bf] shadow-[0_0_15px_rgba(45,212,191,0.1)]">
-                        <Award className="w-5 h-5 font-black" />
+                        <Award className="w-5 h-5" />
                       </div>
                     )}
                   </div>
 
-                  <div className="flex items-end justify-between mb-10 mt-auto">
+                  <div className="flex items-end justify-between mb-10 mt-auto relative z-10">
                     <div>
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Performance Quotient</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">Performance</p>
                       {isPending ? (
-                        <span className="text-sm font-black text-slate-500 italic uppercase">Records Pending</span>
+                        <span className="text-sm font-semibold text-muted-foreground">Records Pending</span>
                       ) : (
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-4xl font-black italic tracking-tighter" style={{ color: statusColor }}>
+                          <span className="text-4xl font-bold tracking-tight" style={{ color: statusColor }}>
                             {student.score}
                           </span>
-                          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">%</span>
+                          <span className="text-xs font-semibold text-muted-foreground uppercase">%</span>
                         </div>
                       )}
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Security Status</p>
-                      <p className="text-2xl font-black italic uppercase tracking-tighter" style={{ color: statusColor }}>
-                        {isPending ? "STANDBY" : student.score >= 33 ? "SECURE" : "FAILED"}
+                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1.5">Status</p>
+                      <p className="text-lg font-bold tracking-tight" style={{ color: statusColor }}>
+                        {isPending ? "Standby" : student.score >= 33 ? "Secure" : "Failed"}
                       </p>
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-3 relative z-10">
                     <Link 
                       href={`/reports/dmc?id=${student.id}`}
-                      className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white/5 border border-white/10 text-white rounded-2xl hover:bg-[#2dd4bf]/10 hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] transition-all font-black text-[10px] uppercase tracking-[0.2em] shadow-lg group/btn"
+                      className="w-full btn-outline flex items-center justify-center gap-2 py-3.5 text-xs font-semibold hover:border-primary/30 group/btn"
                     >
                       <FileText className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
                       Initialize DMC

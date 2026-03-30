@@ -79,8 +79,8 @@ export function AttendanceCard({ student, status, onToggle, onWhatsApp }: Attend
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="font-black text-white text-base tracking-tight truncate">{student.name}</p>
-            <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest truncate mt-0.5">
+            <p className="font-black text-foreground text-base tracking-tight truncate">{student.name}</p>
+            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest truncate mt-0.5">
               Roll No: {student.rollNumber}
             </p>
           </div>

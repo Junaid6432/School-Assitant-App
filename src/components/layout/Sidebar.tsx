@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { 
   LayoutDashboard, 
   Users, 
@@ -12,15 +13,18 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  ChevronLeft,
   Download,
   WifiOff
 } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { cn } from "@/lib/utils";
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
+import { auth, db } from "@/lib/firebase";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
+import { useEffect } from "react";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
@@ -37,52 +41,108 @@ export function Sidebar() {
   const pathname = usePathname();
   const { isInstallable, handleInstallClick } = usePWAInstall();
   const { isOnline } = useNetworkStatus();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [schoolName, setSchoolName] = useState("GPS KUNDA");
+  const [schoolShort, setSchoolShort] = useState("GK");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const docSnap = await getDoc(doc(db, "teachers", user.uid));
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.schoolName) {
+              setSchoolName(data.schoolName);
+              // Extract initials (e.g., "Grand Public School" -> "GP")
+              const initials = data.schoolName
+                .toUpperCase()
+                .split(" ")
+                .filter((word: string) => word.length > 0)
+                .map((word: string) => word[0])
+                .join("")
+                .substring(0, 2);
+              setSchoolShort(initials || "GK");
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching school name:", error);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
-      <div className="hidden md:flex w-64 h-screen bg-[#0f172a] border-r border-white/5 flex-col fixed left-0 top-0 z-50 transition-all duration-300 print:hidden shadow-[4px_0_24px_rgba(0,0,0,0.3)]">
-        <div className="p-8 pb-12">
-          <h1 className="text-2xl font-black italic tracking-tighter text-white group cursor-default">
-            GPS <span className="neon-teal">KUNDA</span>
-          </h1>
-          <div className="flex items-center gap-2 mt-2">
-            <div className="w-2 h-2 rounded-full bg-[#2dd4bf] shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
-            <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em]">System Intelligence</p>
-          </div>
+      <div 
+        className={cn(
+          "hidden md:flex h-screen bg-gradient-to-b from-card/80 to-background/50 backdrop-blur-3xl border-r border-white/5 flex-col fixed left-0 top-0 z-50 transition-all duration-300 print:hidden shadow-2xl",
+          isCollapsed ? "w-20" : "w-64"
+        )}
+      >
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3 top-8 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform z-50 cursor-pointer"
+        >
+          {isCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
+        </button>
+
+        <div className={cn("p-8 pb-12 transition-all overflow-hidden whitespace-nowrap", isCollapsed ? "px-4" : "")}>
+          {isCollapsed ? (
+            <div className="flex justify-center">
+              <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center font-bold text-primary tracking-tighter shadow-[0_0_15px_rgba(45,212,191,0.1)]">
+                {schoolShort}
+              </div>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-xl font-black tracking-tight text-foreground group cursor-default leading-tight">
+                {schoolName.toUpperCase()}
+              </h1>
+              <div className="flex items-center gap-2 mt-2 ml-0.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
+                <p className="text-[9px] text-muted-foreground font-black uppercase tracking-widest bg-white/[0.03] px-1.5 py-0.5 rounded-sm">System Identity</p>
+              </div>
+            </>
+          )}
         </div>
 
-        <nav className="flex-1 px-6 space-y-2 overflow-y-auto">
+        <nav className={cn("flex-1 space-y-2 overflow-y-auto px-4", isCollapsed ? "px-2" : "px-6")}>
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden",
-                  isActive 
-                    ? "bg-[#2dd4bf]/10 text-[#2dd4bf] border border-[#2dd4bf]/20 shadow-[0_0_15px_rgba(45,212,191,0.1)]" 
-                    : "text-slate-400 hover:text-white hover:bg-white/[0.03]"
-                )}
-              >
-                {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#2dd4bf] rounded-r-full shadow-[0_0_10px_rgba(45,212,191,0.8)]" />
-                )}
-                <div className="flex items-center gap-4">
-                  <item.icon className={cn("w-5 h-5 transition-all", isActive ? "neon-teal" : "group-hover:scale-110")} strokeWidth={isActive ? 2.5 : 2} />
-                  <span className="font-bold text-xs uppercase tracking-widest">{item.label}</span>
-                </div>
-                {isActive && <div className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />}
-              </Link>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  title={isCollapsed ? item.label : undefined}
+                  className={cn(
+                    "flex items-center transition-all duration-300 group relative overflow-hidden",
+                    isActive 
+                      ? "bg-gradient-to-r from-primary/10 to-transparent text-primary shadow-inner border border-primary/10" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-white/[0.04] border border-transparent",
+                    isCollapsed ? "justify-center p-3 rounded-xl mx-auto" : "justify-between px-4 py-3 rounded-xl"
+                  )}
+                >
+                  {isActive && !isCollapsed && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-lg shadow-[0_0_12px_var(--color-primary)]" />
+                  )}
+                  <div className={cn("flex items-center", isCollapsed ? "justify-center" : "gap-3")}>
+                    <item.icon className={cn("w-5 h-5 transition-transform duration-300", isActive ? "text-primary drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" : (isCollapsed ? "" : "group-hover:translate-x-1"))} strokeWidth={isActive ? 2.5 : 2} />
+                    {!isCollapsed && <span className="font-semibold text-sm tracking-wide whitespace-nowrap">{item.label}</span>}
+                  </div>
+                  {isActive && !isCollapsed && <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 drop-shadow-[0_0_4px_var(--color-primary)]" />}
+                </Link>
             );
           })}
         </nav>
 
-        <div className="p-6 mt-auto border-t border-white/5 space-y-4">
+        <div className={cn("mt-auto border-t border-white/5 space-y-4", isCollapsed ? "p-4" : "p-6")}>
           {!isOnline && (
-            <div className="flex items-center gap-3 bg-[#fb7185]/10 border border-[#fb7185]/20 text-[#fb7185] px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest animate-pulse">
-              <WifiOff className="w-4 h-4" />
-              <span>Offline Protocol</span>
+            <div className={cn("flex items-center bg-danger/10 border border-danger/20 text-danger rounded-xl text-[10px] font-semibold tracking-widest animate-pulse overflow-hidden", isCollapsed ? "p-3 justify-center" : "px-4 py-3 gap-3 uppercase")}>
+              <WifiOff className="w-4 h-4 flex-shrink-0" />
+              {!isCollapsed && <span className="whitespace-nowrap">Offline Protocol</span>}
             </div>
           )}
 
@@ -91,15 +151,16 @@ export function Sidebar() {
               signOut(auth);
               window.location.href = "/login";
             }}
-            className="flex items-center gap-4 px-4 py-3.5 w-full rounded-2xl text-slate-500 hover:text-[#fb7185] hover:bg-[#fb7185]/5 transition-all font-bold text-xs uppercase tracking-widest group"
+            title={isCollapsed ? "Sign out" : undefined}
+            className={cn("flex items-center rounded-xl text-muted-foreground hover:text-danger hover:bg-danger/10 transition-all font-semibold tracking-wide group", isCollapsed ? "p-3 justify-center w-full" : "px-4 py-3 gap-3 w-full text-sm")}
           >
-            <LogOut className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-            <span>Terminate Session</span>
+            <LogOut className="w-5 h-5 transition-transform flex-shrink-0" />
+            {!isCollapsed && <span className="whitespace-nowrap">Sign out</span>}
           </button>
         </div>
       </div>
 
-      <div className="hidden md:block w-64 flex-shrink-0" />
+      <div className={cn("hidden md:block flex-shrink-0 transition-all duration-300", isCollapsed ? "w-20" : "w-64")} />
     </>
   );
 }

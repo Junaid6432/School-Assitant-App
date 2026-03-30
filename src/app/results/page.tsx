@@ -200,7 +200,8 @@ export default function ResultsPage() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-4 min-h-screen print:hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-4 min-h-screen relative print:hidden">
+        <div className="bg-glow-green fixed inset-0 z-[-1] pointer-events-none" />
         <PageHeader 
           title="Final Results"
           description="Academic Year 2025-26"
@@ -242,76 +243,76 @@ export default function ResultsPage() {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-[#1e293b] p-4 rounded-xl border border-white/5 shadow-2xl relative overflow-hidden group">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-xl border border-border shadow-2xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
-            <Search className="w-16 h-16 text-white" />
+            <Search className="w-16 h-16 text-muted-foreground" />
           </div>
 
           <div className="relative w-full md:w-96 z-10">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input 
               type="text" 
-              placeholder="Identify personnel..."
-              className="w-full pl-12 pr-4 py-2.5 rounded-xl border border-white/10 bg-[#0f172a]/50 text-white focus:ring-2 focus:ring-[#2dd4bf]/20 outline-none transition-all text-sm font-black uppercase tracking-widest px-4"
+              placeholder="Search students..."
+              className="w-full pl-12 pr-4 py-2.5 rounded-xl border border-white/10 bg-white/[0.03] text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary/30 outline-none transition-all text-sm font-medium px-4"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex gap-4 w-full md:w-auto relative z-10">
-            <button className="px-6 py-2.5 rounded-xl border border-white/10 bg-white/5 flex items-center gap-3 hover:bg-white/10 transition-all text-[10px] font-black uppercase tracking-widest text-[#94a3b8] hover:text-white">
+          <div className="flex gap-4 w-full md:w-auto relative z-10 items-center">
+            <button className="btn-outline text-xs px-4 py-2 flex items-center gap-2 text-muted-foreground hover:text-foreground">
               <Filter className="w-4 h-4" />
-              Filter Protocols
+              Filters
             </button>
-            <div className="h-10 w-[1px] bg-white/5 mx-2 hidden md:block" />
-            <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest flex items-center">
-              Detected: <span className="text-[#2dd4bf] mx-2 text-sm italic">{filteredResults.length}</span> Personnel
+            <div className="h-6 w-[1px] bg-white/10 mx-2 hidden md:block" />
+            <p className="text-xs font-medium text-muted-foreground flex items-center">
+              Showing <span className="text-primary font-bold mx-1.5">{filteredResults.length}</span> students
             </p>
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-white/10 relative" style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(15px)' }}>
+        <div className="glass-card overflow-hidden shadow-xl border-white/5 relative">
           <div className="overflow-x-auto">
             {/* Table for Desktop */}
-            <table className="w-full text-left hidden md:table border-collapse table-fixed">
+            <table className="w-full text-left hidden md:table ghost-table table-fixed">
               <thead>
-                <tr className="border-b border-white/10 bg-white/[0.02]">
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] text-center w-[10%]">Index</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] w-[35%]">Personnel Identity</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] text-center w-[10%]">Limit</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] text-center w-[10%]">Vector</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] text-center w-[12%]">Velocity</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] text-center w-[10%]">Grade</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-[#94a3b8] text-center w-[13%]">Status</th>
+                <tr>
+                  <th className="w-[10%] text-center">Roll No</th>
+                  <th className="w-[35%]">Student</th>
+                  <th className="w-[10%] text-center">Total Max</th>
+                  <th className="w-[10%] text-center">Obtained</th>
+                  <th className="w-[12%] text-center">Percentage</th>
+                  <th className="w-[10%] text-center">Grade</th>
+                  <th className="w-[13%] text-center">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/10">
+              <tbody>
                 {filteredResults.map((student) => (
                   <tr 
                     key={student.id} 
-                    className="hover:bg-white/[0.02] transition-all group cursor-pointer"
+                    className="cursor-pointer"
                     onClick={() => openEditMarks(student)}
                   >
-                    <td className="px-6 py-4 text-xs font-black text-[#94a3b8] italic tracking-tighter text-center">#{student.rollNumber}</td>
-                    <td className="px-6 py-4">
-                      <p className="font-black text-white text-sm tracking-tight uppercase italic">{student.name}</p>
+                    <td className="text-center font-medium text-muted-foreground">#{student.rollNumber}</td>
+                    <td>
+                      <p className="font-semibold text-foreground text-sm tracking-tight">{student.name}</p>
                     </td>
-                    <td className="px-6 py-4 text-center text-[10px] font-black text-slate-600">700</td>
-                    <td className="px-6 py-4 text-center text-xs font-black text-white">{student.totalMarks}</td>
-                    <td className="px-6 py-4 text-center font-black text-[#2dd4bf] text-xs italic">{student.percentage}%</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="text-center text-xs font-medium text-muted-foreground/60">700</td>
+                    <td className="text-center font-bold text-foreground">{student.totalMarks}</td>
+                    <td className="text-center font-bold text-primary text-sm">{student.percentage}%</td>
+                    <td className="text-center">
                       <span className={cn(
-                        "text-xs font-black italic tracking-widest",
-                        student.grade.startsWith('A') ? "neon-teal" : 
-                        student.grade === 'F' ? "neon-coral" : "text-blue-400"
+                        "text-sm font-bold tracking-wide outline-none",
+                        student.grade.startsWith('A') ? "text-success drop-shadow-[0_0_8px_rgba(34,197,94,0.3)]" : 
+                        student.grade === 'F' ? "text-danger drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]" : "text-blue-400"
                       )}>
                         {student.grade}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="text-center">
                       <span className={cn(
-                        "px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest transition-all",
-                        student.status === "Pass" ? "bg-[#2dd4bf]/10 text-[#2dd4bf] shadow-[0_0_10px_rgba(45,212,191,0.2)] border border-[#2dd4bf]/20" : 
-                        student.status === "Fail" ? "bg-[#fb7185]/10 text-[#fb7185] shadow-[0_0_10px_rgba(251,113,133,0.2)] border border-[#fb7185]/20" : 
+                        "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all inline-block",
+                        student.status === "Pass" ? "bg-success/10 text-success shadow-[0_0_10px_rgba(34,197,94,0.1)] border border-success/20" : 
+                        student.status === "Fail" ? "bg-danger/10 text-danger shadow-[0_0_10px_rgba(239,68,68,0.1)] border border-danger/20" : 
                         "bg-white/5 text-slate-500 border border-white/10"
                       )}>
                         {student.status === "N/A" ? "Pending" : student.status}
@@ -343,10 +344,10 @@ export default function ResultsPage() {
           <div className="flex justify-end p-6 border-t border-white/5 bg-white/[0.02]">
             <button 
               onClick={() => window.print()}
-              className="btn-primary flex items-center gap-3 px-8 py-3.5 text-[10px] font-black uppercase tracking-widest shadow-[0_15px_30px_rgba(45,212,191,0.2)]"
+              className="btn-outline flex items-center gap-2 text-xs"
             >
-              <Download className="w-4 h-4" />
-              Engage Print Engine
+              <Printer className="w-4 h-4" />
+              Print Results
             </button>
           </div>
         </div>
@@ -355,19 +356,19 @@ export default function ResultsPage() {
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0f172a]/80 backdrop-blur-xl animate-in fade-in duration-300">
             <div className="glass-card w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-300 border-white/10 relative">
-              <div className="sticky top-0 bg-[#1e293b]/90 backdrop-blur-md p-8 border-b border-white/5 flex items-center justify-between z-10">
+              <div className="sticky top-0 bg-card rounded-t-[2rem] p-8 border-b border-border flex items-center justify-between z-10">
                 <div>
-                  <h2 className="text-xl font-black text-white flex items-center gap-3 uppercase italic tracking-tighter">
-                    <Award className="w-6 h-6 neon-teal" />
-                    Entry Protocol: Marks
+                  <h2 className="text-xl font-bold text-foreground flex items-center gap-3 tracking-tight">
+                    <Award className="w-6 h-6 text-primary drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+                    Enter Marks
                   </h2>
-                  <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-[0.2em] mt-1">Status: Manual Synchronization</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mt-1">Manual Synchronization</p>
                 </div>
                 <button 
                   onClick={() => setIsModalOpen(false)}
-                  className="p-3 hover:bg-white/5 rounded-2xl transition-all border border-white/5 shadow-inner"
+                  className="p-3 hover:bg-white/5 rounded-2xl transition-all border border-border shadow-inner"
                 >
-                  <X className="w-5 h-5 text-[#94a3b8] hover:text-white" />
+                  <X className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                 </button>
               </div>
               
@@ -393,14 +394,14 @@ export default function ResultsPage() {
                   ) : (
                     <div className="flex items-center justify-between relative z-10">
                       <div>
-                        <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest leading-none">Syncing Data For</p>
-                        <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mt-1">
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-none">Adding Marks For</p>
+                        <h3 className="text-2xl font-bold text-foreground tracking-tight mt-1">
                           {students.find(s => s.id === selectedStudentId)?.name}
                         </h3>
                       </div>
                       <div className="text-right">
-                        <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest leading-none">Access Code</p>
-                        <p className="text-2xl font-black neon-teal uppercase italic tracking-tighter mt-1">
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-none">Roll Number</p>
+                        <p className="text-2xl font-bold text-primary tracking-tight mt-1">
                           #{students.find(s => s.id === selectedStudentId)?.rollNumber}
                         </p>
                       </div>
@@ -443,21 +444,21 @@ export default function ResultsPage() {
                 <div className="bg-[#0f172a] p-8 rounded-[2rem] border border-white/5 shadow-2xl flex items-center justify-between relative overflow-hidden">
                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#2dd4bf]/5 to-transparent opacity-50" />
                   <div className="relative z-10">
-                    <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest mb-1">AGGREGATE VECTOR</p>
-                    <h4 className="text-4xl font-black text-white italic tracking-tighter">
-                      {Object.values(marks).reduce((acc: number, curr: number) => acc + curr, 0)} <span className="text-xs font-medium text-slate-500 uppercase">/ Total 700</span>
+                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">AGGREGATE VECTOR</p>
+                    <h4 className="text-4xl font-black text-foreground italic tracking-tighter">
+                      {Object.values(marks).reduce((acc: number, curr: number) => acc + curr, 0)} <span className="text-xs font-medium text-muted-foreground uppercase">/ Total 700</span>
                     </h4>
                   </div>
                   <div className="text-right relative z-10">
-                    <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest mb-1">GRADE & PROTOCOL</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">GRADE & STATUS</p>
                     <div className="flex items-center justify-end gap-5">
                       <span className={cn(
-                        "px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg border",
-                        Object.values(marks).every(m => m >= 33) ? "bg-[#2dd4bf]/10 text-[#2dd4bf] border-[#2dd4bf]/20" : "bg-[#fb7185]/10 text-[#fb7185] border-[#fb7185]/20"
+                        "px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm border",
+                        Object.values(marks).every(m => m >= 33) ? "bg-success/10 text-success border-success/20" : "bg-danger/10 text-danger border-danger/20"
                       )}>
-                        {Object.values(marks).every(m => m >= 33) ? "SECURE" : "FAILED"}
+                        {Object.values(marks).every(m => m >= 33) ? "PASSED" : "FAILED"}
                       </span>
-                      <h4 className="text-4xl font-black neon-teal italic tracking-tighter">
+                      <h4 className="text-4xl font-bold text-primary drop-shadow-[0_0_8px_rgba(99,102,241,0.5)] tracking-tight">
                         {(() => {
                           const p = (Object.values(marks).reduce((a, b) => a + b, 0) / 700) * 100;
                           if (p >= 80) return "A+";
@@ -476,7 +477,7 @@ export default function ResultsPage() {
               <div className="p-8 border-t border-white/5 flex gap-6 bg-white/[0.02]">
                 <button 
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-4 rounded-2xl border border-white/10 font-black text-[#94a3b8] uppercase tracking-widest hover:bg-white/5 transition-all text-[10px]"
+                  className="flex-1 py-4 rounded-2xl border border-white/10 font-bold text-muted-foreground uppercase tracking-widest hover:bg-white/5 transition-all text-[10px]"
                 >
                   Discard
                 </button>
@@ -484,16 +485,16 @@ export default function ResultsPage() {
                   onClick={handleSaveMarks}
                   disabled={isSaving}
                   className={cn(
-                    "flex-[2] btn-primary flex items-center justify-center gap-4 py-4 font-black text-[10px] uppercase tracking-widest transition-all",
+                    "flex-[2] btn-premium flex items-center justify-center gap-4 py-4 font-bold text-[11px] uppercase tracking-widest transition-all",
                     isSaving && "opacity-50 cursor-not-allowed"
                   )}
                 >
                   {isSaving ? (
-                    <Loader2 className="w-6 h-6 animate-spin" strokeWidth={3} />
+                    <Loader2 className="w-5 h-5 animate-spin" strokeWidth={3} />
                   ) : (
-                    <SaveIcon className="w-6 h-6" strokeWidth={3} />
+                    <SaveIcon className="w-5 h-5" strokeWidth={3} />
                   )}
-                  {isSaving ? "Synchronizing..." : "Commit Vector Data"}
+                  {isSaving ? "Saving..." : "Save Marks"}
                 </button>
               </div>
             </div>

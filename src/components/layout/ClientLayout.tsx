@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import { App } from "@capacitor/app";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,7 +20,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
   
-  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isAuthPage = pathname === "/login" || pathname === "/register" || pathname === "/forgot-password";
 
   useEffect(() => {
     if (!loading) {
@@ -86,46 +87,48 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex print:block" suppressHydrationWarning>
-      {/* Sidebar: hidden on mobile, fixed on desktop */}
-      {mounted && (
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#1e293b',
-              color: '#fff',
-              borderRadius: '16px',
-              padding: '16px',
-              boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              fontWeight: '600',
-            },
-            success: {
-              iconTheme: {
-                primary: '#10b981',
-                secondary: '#fff',
+    <ThemeProvider>
+      <div className="flex print:block" suppressHydrationWarning>
+        {/* Sidebar: hidden on mobile, fixed on desktop */}
+        {mounted && (
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: '#1e293b',
+                color: '#fff',
+                borderRadius: '16px',
+                padding: '16px',
+                boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                fontWeight: '600',
               },
-            },
-            error: {
-              iconTheme: {
-                primary: '#ef4444',
-                secondary: '#fff',
+              success: {
+                iconTheme: {
+                  primary: '#10b981',
+                  secondary: '#fff',
+                },
               },
-            },
-          }}
-        />
-      )}
-      <Sidebar />
-      {/* Main content: full-width on mobile, offset by sidebar width on desktop */}
-      <main className="flex-1 min-h-screen w-full px-6 py-10 md:px-12 md:py-16 pb-32 md:pb-16 transition-all duration-300 print:m-0 print:p-0 print:overflow-visible print:h-auto overflow-hidden">
-        <div className="max-w-[1400px] mx-auto w-full">
-          {children}
-        </div>
-      </main>
-      {/* Bottom nav: visible on mobile only */}
-      <MobileBottomNav />
-    </div>
+              error: {
+                iconTheme: {
+                  primary: '#ef4444',
+                  secondary: '#fff',
+                },
+              },
+            }}
+          />
+        )}
+        <Sidebar />
+        {/* Main content: full-width on mobile, offset by sidebar width on desktop */}
+        <main className="flex-1 min-h-screen w-full px-6 py-10 md:px-12 md:py-16 pb-32 md:pb-16 transition-all duration-300 print:m-0 print:p-0 print:overflow-visible print:h-auto overflow-hidden">
+          <div className="max-w-[1400px] mx-auto w-full text-foreground">
+            {children}
+          </div>
+        </main>
+        {/* Bottom nav: visible on mobile only */}
+        <MobileBottomNav />
+      </div>
+    </ThemeProvider>
   );
 }
